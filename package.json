@@ -1,0 +1,44 @@
+{
+  "name": "blogging-platform-bn",
+  "version": "1.0.0",
+  "description": "This is a blog platform where  where the user can read a created blogs and for admin has access to delete such blogs.",
+  "homepage": "https://github.com/niyobertin/blogging-platform-bn#readme",
+  "bugs": {
+    "url": "https://github.com/niyobertin/blogging-platform-bn/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niyobertin/blogging-platform-bn.git"
+  },
+  "license": "ISC",
+  "author": "Niyonkuru Bertin",
+  "main": "src/app.ts",
+  "scripts": {
+    "dev": "nodemon src/app.ts"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "email-validator": "^2.0.4",
+    "express": "^4.21.2",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.7",
+    "nodemon": "^3.1.9",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
+  }
+}
