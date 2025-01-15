@@ -10,11 +10,12 @@ interface IBlogAnalytics extends Document {
     country: string;
     city: string;
   };
+  referrers: string[];
   createdAt: Date;
   updatedAt: Date;
 }
 
-const PostAnalyticsSchema: Schema = new Schema(
+export const PostAnalyticsSchema: Schema = new Schema(
   {
     blogId: { type: mongoose.Schema.Types.ObjectId, ref: 'Blog', required: true },
     views: { type: Number, default: 0 },
@@ -25,6 +26,7 @@ const PostAnalyticsSchema: Schema = new Schema(
       country: { type: String },
       city: { type: String },
     },
+    referrers: { type: [String], default: [] },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   },
