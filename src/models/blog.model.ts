@@ -14,6 +14,7 @@ const PostSchema: Schema = new Schema(
   {
     authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, required: true },
+    image: { type: String },
     content: { type: String, required: true },
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },

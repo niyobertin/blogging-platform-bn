@@ -7,3 +7,13 @@ export interface IUser {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export interface IBlog {
+    authorId: string;
+    title: string;
+    content: string;
+    views: number;
+    likes: number;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
