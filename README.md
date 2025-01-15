@@ -9,15 +9,15 @@ Welcome to the Blogging Platform, a modern and scalable application designed for
 **Responsive Design:** Enjoy a seamless experience on any device.
 **Comments and Interactions:** Engage with authors through comments and reactions.
 # For Administrators:
-**User Management:** Manage roles, permissions, and access levels.
-**Content Moderation:** Ensure quality and compliance with built-in moderation tools.
-**Detailed Analytics Dashboard:** Monitor platform performance and user behavior.
+- **User Management:** Manage roles, permissions, and access levels.
+- **Content Moderation:** Ensure quality and compliance with built-in moderation tools.
+- **Detailed Analytics Dashboard:** Monitor platform performance and user behavior.
 # Technologies Used
-**Backend:** Node.js with TypeScript for a robust and type-safe server.
-**Database:** MongoDB for flexible and scalable data storage.
-**ORM/ODM:** Mongoose for easy database modeling.
-**Analytics:** Custom tracking system for post views, clicks, and engagement metrics.
-**Authentication:** JWT for secure user authentication.
+- **Backend:** Node.js with TypeScript for a robust and type-safe server.
+- **Database:** MongoDB for flexible and scalable data storage.
+- **ORM/ODM:** Mongoose for easy database modeling.
+- **Analytics:** Custom tracking system for post views, clicks, and engagement metrics.
+- **Authentication:** JWT for secure user authentication.
 # Installation and Setup
 
 1. Clone the repository:
