@@ -3,6 +3,7 @@ import { createingBlog, deletingBlog, getBlog, getBlogs, updatingBlog } from "..
 import { validateSchema } from "../middleware/validator";
 import { blogSchema, UpdateblogSchema } from "../schema/blog.schema";
 import { isLoggedIn } from "../middleware/isLoggedIn";
+import { isAdmin } from "../middleware/isAdmin";
 const blogRoutes = Router();
 
 blogRoutes.get("/",getBlogs);
@@ -94,7 +95,7 @@ blogRoutes.get("/:id",getBlog);
  *                   type: string
  *                   description: The content of the blog
  */
-blogRoutes.post("/",isLoggedIn,validateSchema(blogSchema),createingBlog);
+blogRoutes.post("/",isLoggedIn,isAdmin,validateSchema(blogSchema),createingBlog);
 /**
  * @swagger
  * /api/v1/blogs:
@@ -150,7 +151,7 @@ blogRoutes.post("/",isLoggedIn,validateSchema(blogSchema),createingBlog);
  *                       type: string
  *                       description: The content of the blog
  */ 
-blogRoutes.patch("/:blogId",isLoggedIn,validateSchema(UpdateblogSchema),updatingBlog);
+blogRoutes.patch("/:blogId",isLoggedIn,isAdmin,validateSchema(UpdateblogSchema),updatingBlog);
 /**
  * @swagger
  * /api/v1/blogs/{blogId}:
@@ -213,7 +214,7 @@ blogRoutes.patch("/:blogId",isLoggedIn,validateSchema(UpdateblogSchema),updating
  *                       type: string
  *                       description: The content of the blog
  */
-blogRoutes.delete("/:blogId",isLoggedIn,deletingBlog);
+blogRoutes.delete("/:blogId",isLoggedIn,isAdmin,deletingBlog);
 /**
  * @swagger
  * /api/v1/blogs/{blogId}:
