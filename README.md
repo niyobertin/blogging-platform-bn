@@ -36,3 +36,5 @@ Welcome to the Blogging Platform, a modern and scalable application designed for
 Run the application:
 
 npm run dev
+
+- Find API documentation here https://blogging-platform-bn.onrender.com/api-docs/
