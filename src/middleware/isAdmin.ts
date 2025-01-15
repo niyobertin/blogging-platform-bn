@@ -1,19 +1,20 @@
 import {  Request,Response, NextFunction} from "express";
 import { isLoggedIn } from "./isLoggedIn";
 import User from "../models/user.model";
-export const isAseller  = async(req:Request,res:Response,next:NextFunction) => {
+export const isAdmin = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    await isLoggedIn(req,res,() => {});
+    await isLoggedIn(req, res, () => {});
+
     //@ts-ignore
-    const email  = req.user.email;
-    const user: any = await User.findOne({email:email});
-    if(user?.role === 'ADMIN'){
+    const email = req.user.email;
+    const user: any = await User.findOne({ email });
+    if (user?.roles.includes('ADMIN')) {
       next();
-    }else{
-      res.status(403).json({message:"Forbidden"});
+    } else {
+      res.status(403).json({ message: "Forbidden" });
     }
-  } catch (error:any) {
+  } catch (error: any) {
     console.error("Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
-  }    
-}
+  }
+};
