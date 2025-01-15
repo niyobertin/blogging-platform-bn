@@ -98,8 +98,6 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
       }
       accessToken  = await generateToken(userInfo)
       const isPasswordMatching = await isPasswordMatch(password, user.password);
-      console.log(user.password);
-        console.log(password);
       if(!isPasswordMatching){
         res.status(400).json({
           status: 400,

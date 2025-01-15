@@ -36,7 +36,6 @@ export const getBlog = async (req: Request, res: Response): Promise<void> => {
 export const createingBlog = async (req: Request, res: Response): Promise<void> => {
     const {title,content,views,likes} = req.body;
     const loggedInUser = (req as any).user;
-    console.log(loggedInUser);
     const blog: IBlog = {
         authorId: loggedInUser._id,
         title,
