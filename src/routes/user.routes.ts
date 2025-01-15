@@ -128,7 +128,7 @@ userRoutes.get('/:id',getUser);
 userRoutes.post('/register', validateSchema(userRegisterSchema), register);
 /**
  * @swagger
- *  /api/v1/users/register:
+ * /api/v1/users/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Users]
@@ -148,12 +148,12 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *                 example: "john@gmail.com"
  *               password:
  *                 type: string
- *               example: "password123"
+ *                 example: "password123"
  *               roles:
  *                 type: array
  *                 items:
  *                   type: string
- *                example: ["user"]
+ *                 example: ["user"]
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -180,7 +180,7 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *                   example: 400
  *                 message:
  *                   type: string
- *                   example: 'User already exist'
+ *                   example: 'User already exists'
  *       500:
  *         description: Internal server error
  *         content:
@@ -192,6 +192,7 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *                   type: string
  *                   example: 'Unexpected error'
  */
+
 userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
 /**
  * @swagger
@@ -210,11 +211,11 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  *               email:
  *                 type: string
  *                 description: The user's email address
- *              example: "joahn@gmail.com"
+ *                 example: "joahn@gmail.com"
  *               password:
  *                 type: string
  *                 description: The user's password
- *                example: "password123"
+ *                 example: "password123"
  *             required:
  *               - email
  *               - password
@@ -273,5 +274,4 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  *                   type: string
  *                   example: 'Unexpected error'
  */
-
 export default userRoutes;
