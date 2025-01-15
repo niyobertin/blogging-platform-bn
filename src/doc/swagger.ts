@@ -8,8 +8,17 @@ const options: swaggerJsdoc.Options = {
       description: 'API documentation for the blogging platform',
       version: '1.0.0',
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT', 
+        },
+      },
+    }
   },
-  apis: ['./src/routes/*.ts'],
+  apis: ['./src/routes/*.ts'], 
 };
 
 const swaggerSpec = swaggerJsdoc(options);

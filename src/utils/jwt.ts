@@ -5,8 +5,9 @@ dotenv.config();
 export const generateToken = async (user: IUser) => {
   const accessToken = sign(
     {
-      name:user.username,
-      role: user.roles
+      username:user.username,
+      role: user.roles,
+      email: user.email,
     },
     `${process.env.JWT_SECRET}`,
     { expiresIn: "48h" },

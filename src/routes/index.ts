@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import userRoutes from "./user.routes";
+import blogRoutes from "./blog.routes";
 
 const appRoutes = Router();
 
@@ -8,6 +9,7 @@ const appRoutes = Router();
  * /api/v1/health-check:
  *   get:
  *     summary: Health check endpoint
+ *     tags: [Health Check]
  *     description: Returns a welcome message for the blogging platform.
  *     responses:
  *       200:
@@ -29,5 +31,5 @@ appRoutes.get('/health-check', (req: Request, res: Response) => {
 });
 
 appRoutes.use('/users',userRoutes);
-
+appRoutes.use('/blogs',blogRoutes);
 export default appRoutes;

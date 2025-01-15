@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getUsers, getUser, register, usersLogin } from "../controllers/user.contoller";
 import { userRegisterSchema } from "../schema/register.schema";
-import { validateSchema } from "../utils/validator";
+import { validateSchema } from "../middleware/validator";
 import { USerLoginSchema } from "../schema/userLogin.schema";
 
 
@@ -12,6 +12,7 @@ userRoutes.get('/',getUsers);
  * /api/v1/users:
  *   get:
  *     summary: Get all users
+ *     tags: [Users]
  *     description: Fetches a list of all users in the system.
  *     responses:
  *       200:
@@ -68,6 +69,7 @@ userRoutes.get('/:id',getUser);
  * /api/v1/users/{id}:
  *   get:
  *     summary: Get a user by ID
+ *     tags: [Users]
  *     description: Fetches a specific user from the system by their unique ID.
  *     parameters:
  *       - in: path
@@ -129,6 +131,7 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *  /api/v1/users/register:
  *   post:
  *     summary: Register a new user
+ *     tags: [Users]
  *     description: Registers a new user into the system with provided details.
  *     requestBody:
  *       required: true
@@ -193,6 +196,7 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  * /api/v1/users/login:
  *   post:
  *     summary: User login
+ *     tags: [Users]
  *     description: Authenticates a user and generates an access token upon successful login.
  *     requestBody:
  *       required: true
