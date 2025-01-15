@@ -142,16 +142,18 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *             properties:
  *               username:
  *                 type: string
+ *                 example: "john_doe123"
  *               email:
  *                 type: string
+ *                 example: "john@gmail.com"
  *               password:
  *                 type: string
- *               profilePicture:
- *                 type: string
+ *               example: "password123"
  *               roles:
  *                 type: array
  *                 items:
  *                   type: string
+ *                example: ["user"]
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -208,9 +210,11 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  *               email:
  *                 type: string
  *                 description: The user's email address
+ *              example: "joahn@gmail.com"
  *               password:
  *                 type: string
  *                 description: The user's password
+ *                example: "password123"
  *             required:
  *               - email
  *               - password
