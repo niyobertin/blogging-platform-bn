@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import userRoutes from "./user.routes";
 import blogRoutes from "./blog.routes";
+import commentRoutes from "./comment.routes";
 
 const appRoutes = Router();
 
@@ -32,4 +33,5 @@ appRoutes.get('/health-check', (req: Request, res: Response) => {
 
 appRoutes.use('/users',userRoutes);
 appRoutes.use('/blogs',blogRoutes);
+appRoutes.use('/comments',commentRoutes);
 export default appRoutes;

@@ -17,3 +17,10 @@ export interface IBlog {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export interface IComment {
+    blogId: string;
+    authorId: string;
+    comment: string;
+    createdAt?: Date;
+}
