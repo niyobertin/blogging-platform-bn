@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getAllAnalytics, trackClick, trackTimeSpent, trackView } from '../controllers/analyitics.controller';
 import { isLoggedIn } from '../middleware/isLoggedIn';
+import { isAdmin } from '../middleware/isAdmin';
 const analyticsRouters = Router(); 
 
 analyticsRouters.post('/view', trackView);
@@ -184,7 +185,7 @@ analyticsRouters.post('/click', trackClick);
  *                   type: string
  *                   description: Details of the error
  */
-analyticsRouters.get('/', isLoggedIn ,getAllAnalytics);
+analyticsRouters.get('/', isLoggedIn ,isAdmin,getAllAnalytics);
 /**
  * @swagger
  * /api/v1/analytics:
