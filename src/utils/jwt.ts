@@ -6,7 +6,7 @@ export const generateToken = async (user: IUser) => {
   const accessToken = sign(
     {
       username:user.username,
-      role: user.roles,
+      role: user.role,
       email: user.email,
     },
     `${process.env.JWT_SECRET}`,

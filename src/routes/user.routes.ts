@@ -3,6 +3,7 @@ import { getUsers, getUser, register, usersLogin } from "../controllers/user.con
 import { userRegisterSchema } from "../schema/register.schema";
 import { validateSchema } from "../middleware/validator";
 import { USerLoginSchema } from "../schema/userLogin.schema";
+import { upload } from "../utils/upload";
 
 
 const userRoutes = Router();
@@ -125,7 +126,7 @@ userRoutes.get('/:id',getUser);
  *                   type: string
  *                   example: 'Unexpected error'
  */
-userRoutes.post('/register', validateSchema(userRegisterSchema), register);
+userRoutes.post('/register', upload.single("profilePicture"), validateSchema(userRegisterSchema), register);
 /**
  * @swagger
  * /api/v1/users/register:
@@ -136,7 +137,7 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -149,11 +150,29 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *               password:
  *                 type: string
  *                 example: "password123"
- *               roles:
- *                 type: array
- *                 items:
- *                   type: string
- *                 example: ["user"]
+ *               profilePicture:
+ *                 type: string
+ *                 format: binary
+ *                 description: Profile picture to be uploaded (image or video)
+ *               role:
+ *                 type: string
+ *                 example: "USER"
+ *               firstName:
+ *                 type: string
+ *                 example: "John"
+ *               lastName:
+ *                 type: string
+ *                 example: "Doe"
+ *               location:
+ *                 type: string
+ *                 example: "123 Main St, Springfield"
+ *               bio:
+ *                 type: string
+ *                 example: "Software Developer passionate about tech."
+ *               phoneNumber:
+ *                 type: string
+ *                 example: "1234567890"
+ *                 description: User's phone number (including country code)
  *     responses:
  *       201:
  *         description: User registered successfully
@@ -193,6 +212,7 @@ userRoutes.post('/register', validateSchema(userRegisterSchema), register);
  *                   example: 'Unexpected error'
  */
 
+
 userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
 /**
  * @swagger
@@ -208,17 +228,18 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               username:
  *                 type: string
- *                 description: The user's email address
- *                 example: "joahn@gmail.com"
+ *                 description: The user's username
+ *                 example: "john_doe"
+ *               phoneNumber:
+ *                 type: string
+ *                 description: The user's phone number (optional)
+ *                 example: "0783334567098"
  *               password:
  *                 type: string
  *                 description: The user's password
  *                 example: "password123"
- *             required:
- *               - email
- *               - password
  *     responses:
  *       200:
  *         description: Successful login and token generation
@@ -244,9 +265,9 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  *                       items:
  *                         type: string
  *                       example: ['user', 'admin']
- *                     email:
+ *                     phoneNumber:
  *                       type: string
- *                       example: 'john.doe@example.com'
+ *                       example: "0783334567098"
  *                 token:
  *                   type: string
  *                   example: 'jwt_token_here'
@@ -274,4 +295,5 @@ userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
  *                   type: string
  *                   example: 'Unexpected error'
  */
+
 export default userRoutes;

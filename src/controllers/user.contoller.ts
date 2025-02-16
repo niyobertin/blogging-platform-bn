@@ -1,8 +1,9 @@
 import { Request,Response } from "express";
-import { getAllUsers, getUserByEmail, getUserById, userRegister } from "../services/user.service";
+import { getAllUsers, getUserByUsernameOrPhonenumber, getUserById, userRegister } from "../services/user.service";
 import { IUser } from "../../type";
 import { isPasswordMatch } from "../utils/passwordCompare";
 import { generateToken } from "../utils/jwt";
+import { uploadMedia } from "../utils/upload";
 
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
@@ -55,8 +56,40 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     }
   };
   export const register = async (req: Request, res: Response): Promise<void> => {
-    const { username, email, password, profilePicture, roles } = req.body;
-    const user = { username, email, password, profilePicture, roles };
+    const {
+      username,
+      email,
+      phoneNumber,
+      password,
+      role,
+      firstName,
+      lastName,
+      location,
+      bio,
+    } = req.body;
+  
+    const { file } = req;
+    let profilePicture: any = null;
+    if (file) {
+      try {
+        profilePicture = await uploadMedia(file);
+      } catch (error) {
+         console.log("File size is too big")
+      }
+    }
+  
+    const user = {
+      username,
+      email,
+      phoneNumber,
+      password,
+      profilePicture,
+      role,
+      firstName,
+      lastName,
+      location,
+      bio,
+    };
   
     try {
       const newUser = await userRegister(user);
@@ -82,8 +115,8 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
   };
 
   export const usersLogin = async (req: Request, res: Response): Promise<void> => {
-    const { email, password } = req.body;
-    const user:any = await getUserByEmail(email);
+    const { username, phoneNumber, password } = req.body;
+    const user:any = await getUserByUsernameOrPhonenumber(username,phoneNumber);
     let accessToken;
     if(!user || user.length === 0){
       res.status(401).json({

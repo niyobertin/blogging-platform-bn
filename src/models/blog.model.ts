@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 interface IBlog extends Document {
   authorId: mongoose.Types.ObjectId;
-  title: string;
+  image:string;
   content: string;
   views: number;
   likes: number;
@@ -13,9 +13,8 @@ interface IBlog extends Document {
 const PostSchema: Schema = new Schema(
   {
     authorId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    title: { type: String, required: true },
     image: { type: String },
-    content: { type: String, required: true },
+    content: { type: String},
     views: { type: Number, default: 0 },
     likes: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now },

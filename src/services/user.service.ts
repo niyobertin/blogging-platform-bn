@@ -1,25 +1,41 @@
 import { IUser } from "../../type";
 import User from "../models/user.model";
-import bcrypt from "bcrypt";
 import { hashPassword } from "../utils/hashPassword";
 
 
 export const userRegister = async (user: IUser) => {
-    
-    const isUserExist = await User.findOne({email:user.email});
-    if(isUserExist){
-        return null
-    }
+  try {
+    const isUserExist = await User.findOne({
+      $or: [
+        { email: user.email },
+        { username: user.username },
+        { phoneNumber: user.phoneNumber }
+      ]
+    });
+    if (isUserExist) {
+      return null;
+    }else{
+
     const hashedPassword = await hashPassword(user.password);
     const newUser = await User.create({
-        username: user.username,
-        email: user.email,
-        password: hashedPassword,
-        profilePicture: user.profilePicture,
-        roles: user.roles
+      username: user.username,
+      email: user.email,
+      phoneNumber: user.phoneNumber, 
+      password: hashedPassword,
+      profilePicture: user.profilePicture || null, 
+      roles: user.role || 'USER', 
+      firstName: user.firstName || null, 
+      lastName: user.lastName || null,
+      location: user.location || null,
+      bio: user.bio || null,
     });
+
     return newUser;
 }
+  } catch (error) {
+   throw new Error(`Registration failed: ${(error as any).message}`)
+  }
+};
 
 export const getAllUsers = async () => {
     const users = await User.find();
@@ -31,7 +47,12 @@ export const getUserById = async (id: string) => {
     return user;
 }
 
-export const getUserByEmail = async (email: string) => {
-    const user = await User.findOne({email:email});
+export const getUserByUsernameOrPhonenumber = async (username: string,phoneNumber:string) => {
+    const user = await User.findOne({
+        $or:[
+            {username: username},
+            {phoneNumber: phoneNumber}
+        ]
+    });
     return user;
 }

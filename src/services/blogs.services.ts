@@ -3,15 +3,15 @@ import Blog from "../models/blog.model";
 
 export const createBlog = async (blog: IBlog): Promise<IBlog> => {
     // Check if the blog title already exists
-    const existingBlog = await Blog.findOne({ title: blog.title });
+    const existingBlog = await Blog.findOne({ content: blog.content });
     if (existingBlog) {
-        throw new Error(`Blog with title "${blog.title}" already exists.`);
+        throw new Error(`Story already exists.`);
     }
 
     // Create and return the new blog
     const newBlog = await Blog.create({
         authorId: blog.authorId.toString(),
-        title: blog.title,
+        image:blog.image,
         content: blog.content,
         views: blog.views,
         likes: blog.likes,

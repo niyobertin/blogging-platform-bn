@@ -1,6 +1,7 @@
 import { Request,Response } from "express";
 import { IBlog } from "../../type";
 import { createBlog, fetchBlogs, fetchBlogById, updateBlog,deleteBlog} from "../services/blogs.services";
+import { uploadMedia } from "../utils/upload";
 
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -20,11 +21,11 @@ export const getBlog = async (req: Request, res: Response): Promise<void> => {
         if(blog){
             res.status(200).json({
                 status: 200,
-                message: 'Blog fetched successfully',
+                message: 'Story fetched successfully',
                 data: blog,
             });
         }else{
-            res.status(404).json({message:"Blog not found"});
+            res.status(404).json({message:"Story not found"});
         }
     } catch (error) {
         if(error instanceof Error){
@@ -33,12 +34,21 @@ export const getBlog = async (req: Request, res: Response): Promise<void> => {
     }
 }
 
-export const createingBlog = async (req: Request, res: Response): Promise<void> => {
-    const {title,content,views,likes} = req.body;
+export const creatingBlog = async (req: Request, res: Response): Promise<void> => {
+    const {content,views,likes} = req.body;
+      const { file } = req;
+        let image: any = null;
+        if (file) {
+          try {
+            image = await uploadMedia(file);
+          } catch (error) {
+             console.log("File size is too big")
+          }
+        }
     const loggedInUser = (req as any).user;
     const blog: IBlog = {
         authorId: loggedInUser._id,
-        title,
+        image,
         content,
         views,
         likes,
@@ -49,7 +59,7 @@ export const createingBlog = async (req: Request, res: Response): Promise<void> 
 
         res.status(201).json({
             status: 201,
-            message: "Blog created successfully",
+            message: "Story created successfully",
             data: newBlog,
         });
     } catch (error) {
@@ -63,21 +73,35 @@ export const createingBlog = async (req: Request, res: Response): Promise<void> 
 
 export const updatingBlog = async (req: Request, res: Response): Promise<void> => {
     const { blogId } = req.params; 
-    const { title, content, views, likes } = req.body; 
-
+    const { content, views, likes } = req.body; 
+    const { file } = req;
+    const existingBlog = await fetchBlogById(blogId);
+    if (!existingBlog) {
+       res.status(404).json({ message: "Blog not found" });
+       return;
+    }
+    let image = existingBlog.image; 
+    if (file) {
+      try {
+        image = await uploadMedia(file);
+      } catch (error) {
+        console.log("File size is too big");
+      }
+    }
+    
     try {
-        const updatedBlog = await updateBlog(blogId, { title, content, views, likes });
+        const updatedBlog = await updateBlog(blogId, { image, content, views, likes });
         if (!updatedBlog) {
             res.status(404).json({
                 status: 404,
-                message: "Blog not found",
+                message: "Story not found",
             });
             return;
         }
 
         res.status(200).json({
             status: 200,
-            message: "Blog updated successfully",
+            message: "Story updated successfully",
             data: updatedBlog,
         });
     } catch (error) {
@@ -97,14 +121,14 @@ export const deletingBlog = async (req: Request, res: Response): Promise<void> =
         if (!deletedBlog) {
             res.status(404).json({
                 status: 404,
-                message: "Blog not found",
+                message: "story not found",
             });
             return;
         }
 
         res.status(200).json({
             status: 200,
-            message: "Blog deleted successfully",
+            message: "Story deleted successfully",
         });
     } catch (error) {
         if (error instanceof Error) {

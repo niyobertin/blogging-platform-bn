@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { createingBlog, deletingBlog, getBlog, getBlogs, updatingBlog } from "../controllers/blog.controller";
+import { creatingBlog, deletingBlog, getBlog, getBlogs, updatingBlog } from "../controllers/blog.controller";
 import { validateSchema } from "../middleware/validator";
 import { blogSchema, UpdateblogSchema } from "../schema/blog.schema";
 import { isLoggedIn } from "../middleware/isLoggedIn";
 import { isAdmin } from "../middleware/isAdmin";
+import { upload } from "../utils/upload";
 const blogRoutes = Router();
 
 blogRoutes.get("/",getBlogs);
@@ -95,7 +96,7 @@ blogRoutes.get("/:id",getBlog);
  *                   type: string
  *                   description: The content of the blog
  */
-blogRoutes.post("/",isLoggedIn,isAdmin,validateSchema(blogSchema),createingBlog);
+blogRoutes.post("/",isLoggedIn, upload.single("image"), validateSchema(blogSchema),creatingBlog);
 /**
  * @swagger
  * /api/v1/blogs:
@@ -104,17 +105,18 @@ blogRoutes.post("/",isLoggedIn,isAdmin,validateSchema(blogSchema),createingBlog)
  *     tags: [Blogs]
  *     description: Creates a new blog in the platform.
  *     security:
- *         - bearerAuth: []
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               image:
  *                 type: string
- *                 description: The title of the blog
+ *                 format: binary
+ *                 description: The image file for the blog
  *               content:
  *                 type: string
  *                 description: The content of the blog
@@ -144,14 +146,15 @@ blogRoutes.post("/",isLoggedIn,isAdmin,validateSchema(blogSchema),createingBlog)
  *                     id:
  *                       type: string
  *                       description: The unique identifier of the blog
- *                     title:
+ *                     image:
  *                       type: string
- *                       description: The title of the blog
+ *                       description: URL of the uploaded image
  *                     content:
  *                       type: string
  *                       description: The content of the blog
- */ 
-blogRoutes.patch("/:blogId",isLoggedIn,isAdmin,validateSchema(UpdateblogSchema),updatingBlog);
+ */
+
+blogRoutes.patch("/:blogId",isLoggedIn, upload.single('image'),validateSchema(UpdateblogSchema),updatingBlog);
 /**
  * @swagger
  * /api/v1/blogs/{blogId}:
@@ -160,7 +163,7 @@ blogRoutes.patch("/:blogId",isLoggedIn,isAdmin,validateSchema(UpdateblogSchema),
  *     tags: [Blogs]
  *     description: Updates a blog by its unique identifier.
  *     security:
- *         - bearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: blogId
@@ -171,22 +174,23 @@ blogRoutes.patch("/:blogId",isLoggedIn,isAdmin,validateSchema(UpdateblogSchema),
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               image:
  *                 type: string
- *                 description: The title of the blog
+ *                 format: binary
+ *                 description: The updated image file for the blog
  *               content:
  *                 type: string
- *                 description: The content of the blog
+ *                 description: The updated content of the blog
  *               views:
  *                 type: number
- *                 description: The number of views the blog has
+ *                 description: The updated number of views the blog has
  *               likes:
  *                 type: number
- *                 description: The number of likes the blog has
+ *                 description: The updated number of likes the blog has
  *     responses:
  *       200:
  *         description: Blog updated successfully
@@ -207,14 +211,14 @@ blogRoutes.patch("/:blogId",isLoggedIn,isAdmin,validateSchema(UpdateblogSchema),
  *                     id:
  *                       type: string
  *                       description: The unique identifier of the blog
- *                     title:
+ *                     image:
  *                       type: string
- *                       description: The title of the blog
+ *                       description: URL of the updated image
  *                     content:
  *                       type: string
- *                       description: The content of the blog
+ *                       description: The updated content of the blog
  */
-blogRoutes.delete("/:blogId",isLoggedIn,isAdmin,deletingBlog);
+blogRoutes.delete("/:blogId",isLoggedIn,deletingBlog);
 /**
  * @swagger
  * /api/v1/blogs/{blogId}:
