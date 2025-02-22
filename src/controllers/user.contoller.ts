@@ -94,7 +94,7 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
       const newUser = await userRegister(user);
   
-      if (newUser) {
+      if (!newUser) {
         res.status(400).json({
           status: 400,
           message: 'User already exists',
