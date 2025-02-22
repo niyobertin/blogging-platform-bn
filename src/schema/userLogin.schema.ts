@@ -8,7 +8,7 @@ export const USerLoginSchema = Joi.object({
   phoneNumber: Joi.string()
     .pattern(/^[0-9]{10,15}$/)
     .messages({
-      'string.pattern.base': 'Phone number must be 10-15 digits',
+      'string.pattern.base': 'Phone number must be 10 digits',
     }),
 
   password: Joi.string()
