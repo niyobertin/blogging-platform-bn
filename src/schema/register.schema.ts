@@ -33,7 +33,7 @@ export const userRegisterSchema = Joi.object({
     .pattern(/^[0-9]{10,15}$/)
     .optional()
     .messages({
-      'string.pattern.base': 'Phone number must be 10-15 digits',
+      'string.pattern.base': 'Phone number must be 10 digits',
     }),
   gender: Joi.string().valid('Male', 'Female', 'Other').optional().messages({
     'any.only': 'Gender must be Male, Female, or Other',
