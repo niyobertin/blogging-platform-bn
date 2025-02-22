@@ -7,7 +7,6 @@ export const userRegister = async (user: IUser) => {
   try {
     const isUserExist = await User.findOne({
       $or: [
-        { email: user.email },
         { username: user.username },
         { phoneNumber: user.phoneNumber }
       ]
