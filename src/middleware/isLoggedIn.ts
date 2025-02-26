@@ -19,7 +19,7 @@ export const isLoggedIn = async (req: Request, res: Response, next: NextFunction
             });
         }
         const decoded: any = await jwtDecode(token as string);
-        const loggedUser: any = await User.findOne({email:decoded.email});
+        const loggedUser: any = await User.findOne({username:decoded.username});
         if (!loggedUser) {
              res.status(401).json({
                 status: 401,
@@ -30,7 +30,6 @@ export const isLoggedIn = async (req: Request, res: Response, next: NextFunction
             req.user = loggedUser;
             next();
         }
-        
     } catch (error: any) {
          res.status(401).json({
             status: "failed",

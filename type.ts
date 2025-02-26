@@ -1,7 +1,7 @@
 export interface IUser {
     username: string;
     email?: string;
-    phoneNumber?: string; // Optional phone number field
+    phoneNumber?: string; 
     password: string;
     profilePicture?: string;
     role?: string;

@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { getAllUsers, getUserByUsernameOrPhonenumber, getUserById, userRegister } from "../services/user.service";
+import { getAllUsers, getUserByUsernameOrPhonenumber, getUserById, userRegister, updateUser } from "../services/user.service";
 import { IUser } from "../../type";
 import { isPasswordMatch } from "../utils/passwordCompare";
 import { generateToken } from "../utils/jwt";
@@ -126,8 +126,8 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     }else{
       const userInfo:any = {
           username: user.username,
-          roles: user.roles,
-          email: user.email,
+          role: user.role,
+          id:user._id,
       }
       accessToken  = await generateToken(userInfo)
       const isPasswordMatching = await isPasswordMatch(password, user.password);
@@ -144,4 +144,35 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
         });
       }
     }
-  } 
+} 
+export const updateUserController = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const userId = req.params.id;
+    const updatedData = req.body;
+
+    if (req.file) {
+      try {
+        updatedData.profilePicture = await uploadMedia(req.file);
+      } catch (error) {
+        console.log("File size is too big");
+      }
+    }
+
+    const updatedUser = await updateUser(userId, updatedData);
+
+    if (!updatedUser) {
+      res.status(404).json({ status: 404, message: "User not found" });
+    } else {
+      res.status(200).json({
+        status: 200,
+        message: "User updated successfully",
+        user: updatedUser,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      error: error instanceof Error ? error.message : "Unexpected error",
+    });
+  }
+};

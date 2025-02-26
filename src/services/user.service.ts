@@ -55,3 +55,17 @@ export const getUserByUsernameOrPhonenumber = async (username: string,phoneNumbe
     });
     return user;
 }
+
+export const updateUser = async (id: string, updatedData: Partial<IUser>) => {
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const updatedUser = await User.findByIdAndUpdate(id, updatedData, { new: true });
+
+    return updatedUser;
+  } catch (error) {
+    throw new Error(`User update failed: ${(error as any).message}`);
+  }
+};

@@ -6,9 +6,9 @@ export const isAdmin = async (req: Request, res: Response, next: NextFunction) =
     await isLoggedIn(req, res, () => {});
 
     //@ts-ignore
-    const email = req.user.email;
-    const user: any = await User.findOne({ email });
-    if (user?.roles.includes('ADMIN')) {
+    const username = req.user.username;
+    const user: any = await User.findOne({ username });
+    if (user?.role ==='ADMIN') {
       next();
     } else {
       res.status(403).json({ message: "Forbidden" });

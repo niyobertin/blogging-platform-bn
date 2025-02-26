@@ -19,7 +19,7 @@ interface IUser extends Document {
   };
   gender?: 'Male' | 'Female' | 'Other';
   dateOfBirth?: Date;
-  roles: string[];
+  roles: string;
   createdAt: Date;
   updatedAt: Date;
 }

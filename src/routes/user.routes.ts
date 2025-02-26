@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { getUsers, getUser, register, usersLogin } from "../controllers/user.contoller";
+import { getUsers, getUser, register, usersLogin, updateUserController } from "../controllers/user.contoller";
 import { userRegisterSchema } from "../schema/register.schema";
+// import { userUpdateSchema } from "../schema/userUpdate.schema";
 import { validateSchema } from "../middleware/validator";
 import { USerLoginSchema } from "../schema/userLogin.schema";
 import { upload } from "../utils/upload";
@@ -211,6 +212,110 @@ userRoutes.post('/register', upload.single("profilePicture"), validateSchema(use
  *                   type: string
  *                   example: 'Unexpected error'
  */
+
+userRoutes.patch(
+    "/:id",
+    upload.single("profilePicture"),
+    updateUserController
+  );
+  
+  /**
+   * @swagger
+   * /api/v1/users/{id}:
+   *   patch:
+   *     summary: Update user details
+   *     tags: [Users]
+   *     description: Updates the user details based on the provided ID.
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *         description: The ID of the user to update.
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         multipart/form-data:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               username:
+   *                 type: string
+   *                 example: "john_doe123"
+   *               email:
+   *                 type: string
+   *                 example: "john@gmail.com"
+   *               profilePicture:
+   *                 type: string
+   *                 format: binary
+   *                 description: Profile picture to be uploaded
+   *               role:
+   *                 type: string
+   *                 example: "USER"
+   *               firstName:
+   *                 type: string
+   *                 example: "John"
+   *               lastName:
+   *                 type: string
+   *                 example: "Doe"
+   *               location:
+   *                 type: string
+   *                 example: "123 Main St, Springfield"
+   *               bio:
+   *                 type: string
+   *                 example: "Software Developer passionate about tech."
+   *               phoneNumber:
+   *                 type: string
+   *                 example: "3456789000"
+   *                 description: User's phone number 
+   *     responses:
+   *       200:
+   *         description: User updated successfully
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: integer
+   *                   example: 200
+   *                 message:
+   *                   type: string
+   *                   example: 'User updated successfully'
+   *                 user:
+   *                   type: object
+   *                   properties:
+   *                     id:
+   *                       type: string
+   *                       example: "64f8a0d1e4b0d832b21c3e5d"
+   *                     username:
+   *                       type: string
+   *                       example: "john_doe123"
+   *       404:
+   *         description: User not found
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 status:
+   *                   type: integer
+   *                   example: 404
+   *                 message:
+   *                   type: string
+   *                   example: 'User not found'
+   *       500:
+   *         description: Internal server error
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 error:
+   *                   type: string
+   *                   example: 'Unexpected error'
+   */  
 
 
 userRoutes.post('/login', validateSchema(USerLoginSchema), usersLogin);
