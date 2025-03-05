@@ -1,5 +1,8 @@
 import { IComment } from "../../type";
 import Comment from "../models/comment.model";
+import Blog from "../models/blog.model";
+import Notification from "../models/notification.model"; 
+import { io, onlineUsers } from "../app";
 
 export const createComment = async (content: IComment) => {
   try {
@@ -8,6 +11,22 @@ export const createComment = async (content: IComment) => {
         authorId: content.authorId,
         comment: content.comment,
     });
+        const blog = await Blog.findById(content.blogId);
+    if (!blog) throw new Error("Blog not found");
+    
+        const notification = await Notification.create({
+          userId: blog.authorId,
+          message: `Someone commented on your post!`,
+          blogId: blog._id,
+        });
+    
+        if (onlineUsers.has(blog.authorId.toString())) {
+          io.to(onlineUsers.get(blog.authorId.toString())!).emit("blog_commented", {
+            message: `Someone commented on your post!`,
+            blogId: blog._id,
+          });
+        }
+    
     return newComment;
   } catch (error) {
     if(error instanceof Error) throw new Error(error.message);
