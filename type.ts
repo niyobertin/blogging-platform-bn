@@ -30,3 +30,8 @@ export interface IComment {
     comment: string;
     createdAt?: Date;
 }
+
+export interface ILike{
+    blogId: string;
+    authorId: string;
+}

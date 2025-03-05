@@ -3,6 +3,7 @@ import userRoutes from "./user.routes";
 import blogRoutes from "./blog.routes";
 import commentRoutes from "./comment.routes";
 import analyticsRoutes from "./analytics.routes";
+import likeRoute from "./like.routes";
 
 const appRoutes = Router();
 
@@ -35,6 +36,7 @@ appRoutes.get('/health-check', (req: Request, res: Response) => {
 appRoutes.use('/users',userRoutes);
 appRoutes.use('/blogs',blogRoutes);
 appRoutes.use('/comments',commentRoutes);
-appRoutes.use('/analytics',analyticsRoutes);
+appRoutes.use('/analytics', analyticsRoutes);
+appRoutes.use('/likes', likeRoute);
 
 export default appRoutes;
