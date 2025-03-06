@@ -1,7 +1,7 @@
 import Like from "../models/like.model";
-import Blog from "../models/blog.model";;
+import Blog from "../models/blog.model";
 import Notification from "../models/notification.model";
-import { io, onlineUsers } from "../app"; 
+import { io, onlineUsers } from "../app";
 import { ILike } from "../../type";
 import mongoose from "mongoose";
 
@@ -40,8 +40,24 @@ export const toggleLike = async (like: ILike) => {
       });
     }
 
-
     return { message: "Post liked" };
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message);
+  }
+};
+
+export const checkIfUserLikedStory = async (blogId: string, userId: string) => {
+  try {
+    if (
+      !mongoose.Types.ObjectId.isValid(blogId) ||
+      !mongoose.Types.ObjectId.isValid(userId)
+    ) {
+      throw new Error("Invalid blog ID or user ID");
+    }
+
+    const existingLike = await Like.findOne({ blogId, authorId: userId });
+
+    return !!existingLike;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);
   }
