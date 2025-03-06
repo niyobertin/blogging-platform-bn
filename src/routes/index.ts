@@ -4,6 +4,7 @@ import blogRoutes from "./blog.routes";
 import commentRoutes from "./comment.routes";
 import analyticsRoutes from "./analytics.routes";
 import likeRoute from "./like.routes";
+import notificationRoutes from "./notifications.routes";
 
 const appRoutes = Router();
 
@@ -26,17 +27,18 @@ const appRoutes = Router();
  *                   type: string
  *                   example: Welcome to our blogging platform!
  */
-appRoutes.get('/health-check', (req: Request, res: Response) => {
-    res.status(200).json({ 
-        status:200,
-        message: 'Welcome to our blogging platform!' 
-    });
+appRoutes.get("/health-check", (req: Request, res: Response) => {
+  res.status(200).json({
+    status: 200,
+    message: "Welcome to our blogging platform!",
+  });
 });
 
-appRoutes.use('/users',userRoutes);
-appRoutes.use('/blogs',blogRoutes);
-appRoutes.use('/comments',commentRoutes);
-appRoutes.use('/analytics', analyticsRoutes);
-appRoutes.use('/likes', likeRoute);
+appRoutes.use("/users", userRoutes);
+appRoutes.use("/blogs", blogRoutes);
+appRoutes.use("/comments", commentRoutes);
+appRoutes.use("/analytics", analyticsRoutes);
+appRoutes.use("/likes", likeRoute);
+appRoutes.use("/notifications", notificationRoutes);
 
 export default appRoutes;
